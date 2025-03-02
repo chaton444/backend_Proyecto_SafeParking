@@ -1,0 +1,14 @@
+CREATE DATABASE image_db;
+CREATE USER image_user WITH ENCRYPTED PASSWORD 'password123';
+GRANT ALL PRIVILEGES ON DATABASE image_db TO image_user;
+
+
+
+CREATE TABLE images (
+    id SERIAL PRIMARY KEY,
+    filename TEXT NOT NULL,
+    path TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
