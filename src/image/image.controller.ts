@@ -20,10 +20,21 @@ export class ImageController {
     }),
   }))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    const savedImage = await this.imageService.saveImage(file.filename, `uploads/${file.filename}`);
-    return { message: 'Imagen subida correctamente', image: savedImage };
+    try {
+      console.log('Archivo recibido:', file); // Verifica si el archivo llega
+      
+      if (!file) {
+        throw new Error('No se recibió ningún archivo'); // Lanza error si no hay archivo
+      }
+  
+      const savedImage = await this.imageService.saveImage(file.filename, `uploads/${file.filename}`);
+      return { message: 'Imagen subida correctamente', image: savedImage };
+    } catch (error) {
+      console.error('Error en uploadFile:', error);
+      throw new Error('Error interno del servidor: ' + error.message);
+    }
   }
-
+  
   @Get(':id')
   async getImage(@Param('id') id: number, @Res() res: Response) {
     const image = await this.imageService.getImage(id);

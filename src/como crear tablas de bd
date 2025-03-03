@@ -1,6 +1,5 @@
 CREATE DATABASE image_db;
-CREATE USER image_user WITH ENCRYPTED PASSWORD 'password123';
-GRANT ALL PRIVILEGES ON DATABASE image_db TO image_user;
+
 
 
 

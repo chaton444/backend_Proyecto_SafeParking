@@ -8,8 +8,8 @@ import { ImageModule } from './image/image.module';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'image_user',//credenciales de posgresql
-      password: 'password123',//credenciales de posgresql
+      username: 'chaton44',
+      password: '2001',
       database: 'image_db',//nombre de la bd hecha en posgresql revisar el archivo de como crear tablas en posgresql
       autoLoadEntities: true,
       synchronize: true, // No usar en producción
