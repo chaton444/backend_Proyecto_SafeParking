@@ -36,8 +36,19 @@ export class ImageController {
   }
   
   @Get(':id')
-  async getImage(@Param('id') id: number, @Res() res: Response) {
-    const image = await this.imageService.getImage(id);
+  async getImage(@Param('id') id: string, @Res() res: Response) {
+    const imageId = parseInt(id, 10);
+  
+    if (isNaN(imageId)) {
+      return res.status(400).json({ message: 'ID inválido, debe ser un número' });
+    }
+  
+    const image = await this.imageService.getImage(imageId);
+    if (!image) {
+      return res.status(404).json({ message: 'Imagen no encontrada' });
+    }
+  
     return res.sendFile(join(process.cwd(), image.path));
   }
+  
 }
