@@ -5,7 +5,7 @@ import { ImageService } from './image.service';
 import { Images } from 'src/entity/image.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Image])], // Registra el repositorio de Image
+  imports: [TypeOrmModule.forFeature([Images])], // Registra el repositorio de Image
   controllers: [ImageController],
   providers: [ImageService],
 })
