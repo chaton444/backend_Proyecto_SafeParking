@@ -45,7 +45,7 @@ export class ImageController {
       id: img.id,
       filename: img.filename,
       plate: 'DESCONOCIDA', // Puedes personalizar si guardas placas
-      image: `http://3.12.150.220:3000/uploads/${img.filename}`,
+      image: `https://3.23.102.253/:3000/uploads/${img.filename}`,
     }));
   }
   
