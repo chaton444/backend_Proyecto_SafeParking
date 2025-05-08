@@ -6,7 +6,7 @@ import { Images } from 'src/entity/image.entity';
 @Injectable()
 export class ImageService {
   constructor(
-    @InjectRepository(Image)
+    @InjectRepository(Images)
     private readonly imageRepository: Repository<Images>,
   ) {}
 
