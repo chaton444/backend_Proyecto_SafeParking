@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
-@Entity('images')
+@Entity()
 export class Image {
   @PrimaryGeneratedColumn()
   id: number;
@@ -11,6 +11,9 @@ export class Image {
   @Column()
   path: string;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ nullable: true })
+  plate: string;
+
+  @CreateDateColumn()
   createdAt: Date;
 }
