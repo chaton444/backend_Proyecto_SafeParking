@@ -11,7 +11,8 @@ export class ImageService {
   ) {}
 
   async saveImage(filename: string, path: string): Promise<Image> {
-    const image = this.imageRepository.create({ filename, path });
+    const plate = this.extractPlateFromFilename(filename);
+    const image = this.imageRepository.create({ filename, path, plate });
     return this.imageRepository.save(image);
   }
 
@@ -27,8 +28,13 @@ export class ImageService {
     return this.imageRepository.find();
   }
 
+  async updatePlate(id: number, newPlate: string): Promise<Image> {
+    const image = await this.getImage(id);
+    image.plate = newPlate;
+    return this.imageRepository.save(image);
+  }
+
   extractPlateFromFilename(filename: string): string {
-    // Ejemplo: 1746580250591-JUD-78-16.jpg → JUD-78-16
     const parts = filename.split('-');
     if (parts.length < 2) return 'DESCONOCIDA';
     const plateWithExtension = parts.slice(1).join('-');

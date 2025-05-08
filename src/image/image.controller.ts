@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Param, UploadedFile, UseInterceptors, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Param,
+  Body,
+  UploadedFile,
+  UseInterceptors,
+  Res,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { ImageService } from './image.service';
@@ -11,24 +21,27 @@ export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file', {
-    storage: diskStorage({
-      destination: './uploads',
-      filename: (req, file, cb) => {
-        const filename = Date.now() + '-' + file.originalname;
-        cb(null, filename);
-      },
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, cb) => {
+          const filename = Date.now() + '-' + file.originalname;
+          cb(null, filename);
+        },
+      }),
     }),
-  }))
+  )
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
     try {
-      console.log('Archivo recibido:', file);
-
       if (!file) {
         throw new Error('No se recibió ningún archivo');
       }
 
-      const savedImage = await this.imageService.saveImage(file.filename, `uploads/${file.filename}`);
+      const savedImage = await this.imageService.saveImage(
+        file.filename,
+        `uploads/${file.filename}`,
+      );
       return { message: 'Imagen subida correctamente', image: savedImage };
     } catch (error) {
       console.error('Error en uploadFile:', error);
@@ -43,7 +56,7 @@ export class ImageController {
     return images.map((img: ImageEntity) => ({
       id: img.id,
       filename: img.filename,
-      plate: this.imageService.extractPlateFromFilename(img.filename),
+      plate: img.plate || this.imageService.extractPlateFromFilename(img.filename),
       date: img.createdAt,
       image: `http://3.23.102.253:3000/uploads/${img.filename}`,
     }));
@@ -52,7 +65,6 @@ export class ImageController {
   @Get(':id')
   async getImage(@Param('id') id: string, @Res() res: Response) {
     const imageId = parseInt(id, 10);
-
     if (isNaN(imageId)) {
       return res.status(400).json({ message: 'ID inválido, debe ser un número' });
     }
@@ -63,5 +75,19 @@ export class ImageController {
     }
 
     return res.sendFile(join(process.cwd(), image.path));
+  }
+
+  @Put(':id/plate')
+  async updatePlate(@Param('id') id: string, @Body('plate') plate: string) {
+    const imageId = parseInt(id, 10);
+    if (isNaN(imageId)) {
+      return { message: 'ID inválido' };
+    }
+
+    const updatedImage = await this.imageService.updatePlate(imageId, plate);
+    return {
+      message: 'Placa actualizada correctamente',
+      image: updatedImage,
+    };
   }
 }
