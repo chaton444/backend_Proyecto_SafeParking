@@ -14,7 +14,7 @@ import { diskStorage } from 'multer';
 import { ImageService } from './image.service';
 import { join } from 'path';
 import { Response } from 'express';
-import { Image as ImageEntity } from 'src/entity/image.entity';
+import { Images as ImageEntity } from 'src/entity/image.entity';
 
 @Controller('images')
 export class ImageController {

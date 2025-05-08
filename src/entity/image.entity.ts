@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 @Entity()
-export class Image {
+export class Images{
   @PrimaryGeneratedColumn()
   id: number;
 
