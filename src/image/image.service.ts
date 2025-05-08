@@ -16,15 +16,22 @@ export class ImageService {
   }
 
   async getImage(id: number): Promise<Image> {
-    const image = await this.imageRepository.findOne({where: {id}});
-    if(!image){
-     throw new Error('Imagen no encontrada en la bd');
-
+    const image = await this.imageRepository.findOne({ where: { id } });
+    if (!image) {
+      throw new Error('Imagen no encontrada en la bd');
     }
     return image;
   }
 
   async getAllImages(): Promise<Image[]> {
     return this.imageRepository.find();
+  }
+
+  extractPlateFromFilename(filename: string): string {
+    // Ejemplo: 1746580250591-JUD-78-16.jpg → JUD-78-16
+    const parts = filename.split('-');
+    if (parts.length < 2) return 'DESCONOCIDA';
+    const plateWithExtension = parts.slice(1).join('-');
+    return plateWithExtension.replace(/\.[^/.]+$/, '');
   }
 }

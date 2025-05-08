@@ -22,36 +22,18 @@ export class ImageController {
   }))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
     try {
-      console.log('Archivo recibido:', file); // Verifica si el archivo llega
+      console.log('Archivo recibido:', file);
 
       if (!file) {
-        throw new Error('No se recibió ningún archivo'); // Lanza error si no hay archivo
+        throw new Error('No se recibió ningún archivo');
       }
 
-      // Extraer la placa del nombre del archivo
-      const plate = this.extractPlateFromFilename(file.filename);
-
-      // Guardar la imagen junto con la placa
       const savedImage = await this.imageService.saveImage(file.filename, `uploads/${file.filename}`);
-
       return { message: 'Imagen subida correctamente', image: savedImage };
     } catch (error) {
       console.error('Error en uploadFile:', error);
       throw new Error('Error interno del servidor: ' + error.message);
     }
-  }
-
-  // Método para extraer la placa del nombre del archivo
-  private extractPlateFromFilename(filename: string): string {
-    // Ej: 1746580250591-JUD-78-16.jpg → JUD-78-16
-    const parts = filename.split('-');
-    if (parts.length < 2) return 'DESCONOCIDA';
-
-    // Une todas las partes después de la primera (timestamp), eliminando la extensión
-    const plateWithExtension = parts.slice(1).join('-');
-    const plate = plateWithExtension.replace(/\.[^/.]+$/, ''); // Quita extensión
-
-    return plate;
   }
 
   @Get('uploads')
@@ -61,8 +43,8 @@ export class ImageController {
     return images.map((img: ImageEntity) => ({
       id: img.id,
       filename: img.filename,
-      plate: this.extractPlateFromFilename(img.filename), // Extraemos la placa del nombre de archivo
-      date: img.createdAt, // Usamos la fecha almacenada en createdAt
+      plate: this.imageService.extractPlateFromFilename(img.filename),
+      date: img.createdAt,
       image: `http://3.23.102.253:3000/uploads/${img.filename}`,
     }));
   }
