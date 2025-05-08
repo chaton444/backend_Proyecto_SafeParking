@@ -1,4 +1,14 @@
-import {Controller, Get, Post, Put, Param, Body, UploadedFile, UseInterceptors, Res,} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Param,
+  Body,
+  UploadedFile,
+  UseInterceptors,
+  Res,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { ImageService } from './image.service';
