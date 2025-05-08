@@ -4,6 +4,8 @@ import { diskStorage } from 'multer';
 import { ImageService } from './image.service';
 import { join } from 'path';
 import { Response } from 'express';
+import { Image as ImageEntity } from 'src/entity/image.entity';
+
 
 @Controller('images')
 export class ImageController {
@@ -33,6 +35,18 @@ export class ImageController {
       console.error('Error en uploadFile:', error);
       throw new Error('Error interno del servidor: ' + error.message);
     }
+  }
+
+  @Get('uploads')
+  async getAllImages(): Promise<any[]> {
+    const images = await this.imageService.getAllImages();
+
+    return images.map((img: ImageEntity) => ({
+      id: img.id,
+      filename: img.filename,
+      plate: 'DESCONOCIDA', // Puedes personalizar si guardas placas
+      image: `http://3.12.150.220:3000/uploads/${img.filename}`,
+    }));
   }
   
   @Get(':id')

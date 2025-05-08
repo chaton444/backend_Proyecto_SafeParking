@@ -23,4 +23,8 @@ export class ImageService {
     }
     return image;
   }
+
+  async getAllImages(): Promise<Image[]> {
+    return this.imageRepository.find();
+  }
 }
