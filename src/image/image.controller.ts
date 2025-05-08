@@ -43,9 +43,15 @@ export class ImageController {
 
   // Método para extraer la placa del nombre del archivo
   private extractPlateFromFilename(filename: string): string {
-    const regex = /([A-Z0-9]+-[A-Z0-9]+-[0-9]+-[0-9]+)/;  // Expresión regular para detectar la placa
-    const match = filename.match(regex);
-    return match ? match[0] : 'DESCONOCIDA';  // Si no encuentra placa, asigna 'DESCONOCIDA'
+    // Ej: 1746580250591-JUD-78-16.jpg → JUD-78-16
+    const parts = filename.split('-');
+    if (parts.length < 2) return 'DESCONOCIDA';
+
+    // Une todas las partes después de la primera (timestamp), eliminando la extensión
+    const plateWithExtension = parts.slice(1).join('-');
+    const plate = plateWithExtension.replace(/\.[^/.]+$/, ''); // Quita extensión
+
+    return plate;
   }
 
   @Get('uploads')
