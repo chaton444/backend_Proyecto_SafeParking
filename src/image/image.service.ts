@@ -40,4 +40,9 @@ export class ImageService {
     const plateWithExtension = parts.slice(1).join('-');
     return plateWithExtension.replace(/\.[^/.]+$/, '');
   }
+  async deleteImage(id: number): Promise<void> {
+    const image = await this.getImage(id);
+    await this.imageRepository.remove(image);
+    return console.log('Imagen eliminada de la bd');
+  }
 }

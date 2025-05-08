@@ -8,6 +8,7 @@ import {
   UploadedFile,
   UseInterceptors,
   Res,
+  Delete,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -90,4 +91,22 @@ export class ImageController {
       image: updatedImage,
     };
   }
+  @Delete(':id')
+  async deleteImage(@Param('id') id: string, @Res() res: Response) {
+    const imageId = parseInt(id, 10);
+    if (isNaN(imageId)) {
+      return res.status(400).json({ message: 'ID inválido, debe ser un número' });
+    }
+
+    const image = await this.imageService.getImage(imageId);
+    if (!image) {
+      return res.status(404).json({ message: 'Imagen no encontrada' });
+    }else {
+      await this.imageService.deleteImage(imageId);
+      return res.status(200).json({ message: 'Imagen eliminada correctamente' });
+    }
+
+   
+  }
+  
 }
