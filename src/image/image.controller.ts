@@ -59,7 +59,7 @@ export class ImageController {
       filename: img.filename,
       plate: img.plate || this.imageService.extractPlateFromFilename(img.filename),
       date: img.createdAt,
-      image: `http://3.23.102.253:3000/uploads/${img.filename}`,
+      image: `http://18.116.90.219:3000/uploads/${img.filename}`,
     }));
   }
 
