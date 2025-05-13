@@ -28,11 +28,7 @@ export class ImageService {
     return this.imageRepository.find();
   }
 
-  async updatePlate(id: number, newPlate: string): Promise<Images> {
-    const image = await this.getImage(id);
-    image.plate = newPlate;
-    return this.imageRepository.save(image);
-  }
+
 
   extractPlateFromFilename(filename: string): string {
     const parts = filename.split('-');
@@ -45,7 +41,11 @@ export class ImageService {
     await this.imageRepository.remove(image);
     return console.log('Imagen eliminada de la bd');
   }
-
+  async updatePlate(id: number, newPlate: string): Promise<Images> {
+    const image = await this.getImage(id);
+    image.plate = newPlate;
+    return this.imageRepository.save(image);
+  }
 
 
 }
