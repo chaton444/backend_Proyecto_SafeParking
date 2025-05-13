@@ -45,4 +45,7 @@ export class ImageService {
     await this.imageRepository.remove(image);
     return console.log('Imagen eliminada de la bd');
   }
+
+
+
 }

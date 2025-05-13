@@ -105,8 +105,25 @@ export class ImageController {
       await this.imageService.deleteImage(imageId);
       return res.status(200).json({ message: 'Imagen eliminada correctamente' });
     }
-
-   
   }
-  
+// endpoint para actualizar  el nombre de la placa 
+
+@Put(':id')
+async updatePlateName(@Param('id') id: string,@Body('plate') newName: string,) {
+  const imageId = parseInt(id, 10);
+  if (isNaN(imageId)) {
+    return { message: 'ID inválido' };
+  }
+
+  const updatedImage = await this.imageService.updatePlate(imageId, newName);
+  return {
+    message: 'Placa actualizada correctamente',
+    image: updatedImage,
+  };
 }
+
+
+
+}
+  
+
