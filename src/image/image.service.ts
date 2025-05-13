@@ -15,6 +15,7 @@ export class ImageService {
     const image = this.imageRepository.create({ filename, path, plate });
     return this.imageRepository.save(image);
   }
+  
 
   async getImage(id: number): Promise<Images> {
     const image = await this.imageRepository.findOne({ where: { id } });

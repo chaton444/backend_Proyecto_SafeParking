@@ -50,18 +50,19 @@ export class ImageController {
     }
   }
 
-  @Get('uploads')
-  async getAllImages(): Promise<any[]> {
-    const images = await this.imageService.getAllImages();
+@Get('uploads')
+async getAllImages(): Promise<any[]> {
+  const images = await this.imageService.getAllImages();
 
-    return images.map((img: ImageEntity) => ({
-      id: img.id,
-      filename: img.filename,
-      plate: img.plate || this.imageService.extractPlateFromFilename(img.filename),
-      date: img.createdAt,
-      image: `http://18.116.90.219:3000/uploads/${img.filename}`,
-    }));
-  }
+  return images.map((img: ImageEntity) => ({
+    id: img.id,
+    filename: img.filename,
+    plate: img.plate, // ✅ usar lo que ya está en la base
+    date: img.createdAt,
+    image: `http://18.116.90.219:3000/uploads/${img.filename}`,
+  }));
+}
+
 
   @Get(':id')
   async getImage(@Param('id') id: string, @Res() res: Response) {
