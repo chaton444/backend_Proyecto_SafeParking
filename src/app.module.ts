@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ImageModule } from './image/image.module';
 
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: '172.31.14.108',
+      host: '34.230.78.34',
       port: 5432,
       username: 'postgres',
       password: 'root',
