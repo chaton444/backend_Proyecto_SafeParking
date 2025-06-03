@@ -59,7 +59,7 @@ async getAllImages(): Promise<any[]> {
     filename: img.filename,
     plate: img.plate, // ✅ usar lo que ya está en la base
     date: img.createdAt,
-    image: `http://18.116.90.219:3000/uploads/${img.filename}`,
+    image: `http://3.85.237.4:3000/uploads/${img.filename}`,
   }));
 }
 
