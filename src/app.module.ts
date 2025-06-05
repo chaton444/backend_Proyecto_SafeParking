@@ -7,7 +7,7 @@ import { ImageModule } from './image/image.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: '34.230.78.34',
+      host: '3.85.237.4',
       port: 5432,
       username: 'postgres',
       password: 'root',
